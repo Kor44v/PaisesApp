@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Countries } from '../../interfaces/pais.interface';
+import { PaisService } from '../../services/pais.service';
 
 @Component({
   selector: 'app-por-region',
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PorRegionComponent implements OnInit {
 
-  constructor() { }
+regiones:string[]=['africa', 'americas', 'asia', 'europe', 'oceania']
+  regionActiva:string='';
+  paises:Countries[]=[];
+
+  constructor(private paisService:PaisService) { }
 
   ngOnInit(): void {
+  }
+
+  getClaseCSS(region:string){
+    return (region === this.regionActiva) ? 'btn btn-primary':'btn btn-outline-primary'
+  }
+
+  activarRegion(region:string){
+    this.regionActiva=region;
+    this.paisService.buscarRegion(region).subscribe(paises=>{
+  
+      this.paises=paises;
+    })
   }
 
 }
